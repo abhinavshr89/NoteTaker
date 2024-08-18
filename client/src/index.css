@@ -11,3 +11,7 @@ html,body{
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.nounderline{
+  @apply hover:no-underline;
+}
