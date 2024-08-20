@@ -5,7 +5,7 @@ const cors = require('cors'); // Import the cors middleware
 const connectDb = require("./Database/connectDb")
 const userRoutes = require('./routes/userRoutes');
 const { notFound, errorHandler } = require('./middlewares/errorMiddleware');
-
+const noteRoutes = require('./routes/noteRoutes');
 
 const app = express();
 
@@ -18,15 +18,10 @@ app.use(express.json()); // ! Important -> You can not use json data in your exp
 // *Connect to MongoDB database
 connectDb();
 
-app.get('/', (req, res) => {
-    res.send('API is running!');
-});
 
-app.get('/api/notes', (req, res) => {
-    res.json(notes);
-});
 
 app.use('/api/users',userRoutes);
+app.use('/api/notes',noteRoutes);
 
 // * Error handling middleware
 app.use(notFound)
