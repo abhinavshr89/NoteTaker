@@ -1,18 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
-import {thunk} from 'redux-thunk';
 import { combineReducers } from 'redux';
-import { userLoginReducer } from '../reducers/userReducers';
+import { userLoginReducer, userRegisterReducer } from '../reducers/userReducers';
 
 const reducer = combineReducers({
-  userLogin:userLoginReducer,
+  userLogin: userLoginReducer,
+  userRegister: userRegisterReducer,
 });
 
-const initialState = {};
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : null;
+
+const initialState = {
+  userLogin: {
+    userInfo: userInfoFromStorage,
+  },
+};
 
 const store = configureStore({
   reducer,
   preloadedState: initialState,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
 });
 
 export default store;

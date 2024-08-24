@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainScreen from '../../components/MainScreen';
 import { Form, Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,9 @@ import axios from 'axios';
 import Loading from '../../components/Loading';
 import ErrorMessage from '../../components/ErrorMessage';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { register } from '../../actions/userActions';
+import { useDispatch } from 'react-redux';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -16,44 +19,28 @@ const RegisterPage = () => {
   const [message, setMessage] = useState(null);
   const [picMessage, setPicMessage] = useState(null);
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const dispatch = useDispatch();
+
+  
+  const userRegister = useSelector(state =>state.userRegister);
+  
+  const{loading,error,userInfo}=userRegister;
 
   const navigate = useNavigate();
+  useEffect(()=>{
+    if(userInfo){
+      navigate('/mynotes');
+    }  
+  },[navigate,userInfo])
 
   const submitHandler = async (e) => {
     e.preventDefault();
-
-    if (password !== confirmPassword) {
+    if(password !== confirmPassword){
       setMessage("Passwords do not match");
-      return;
+    }else{
+      dispatch(register(name,email,password,picture));
     }
 
-    try {
-      setLoading(true);
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users",
-        {
-          name,
-          email,
-          password,
-          picture,
-        },
-        config
-      );
-
-      setLoading(false);
-      navigate("/login"); // Redirect to login page after successful registration
-    } catch (error) {
-      setError(error.response.data.message || error.message);
-      setLoading(false);
-    }
   };
 
   const postDetails = (file) => {

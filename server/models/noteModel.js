@@ -29,4 +29,4 @@ const Note = mongoose.model("Note", noteSchema);
 module.exports = Note;
 
 //* Note -> we can separate the notes of different users 
-// * by sending the user id along with the notes while creating them 
+//* by sending the user id along with the notes while creating them 

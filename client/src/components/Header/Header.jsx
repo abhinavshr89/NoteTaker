@@ -5,8 +5,23 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux'
 const Header = () => {
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  const userLogin = useSelector(state =>state.userLogin);
+
+  const {userInfo} = userLogin;
+
+  const logoutHandler = () => {
+    dispatch({type: 'USER_LOGOUT'});
+    navigate('/');
+  }
+
+
   return (
     <div>
 
@@ -24,14 +39,16 @@ const Header = () => {
               navbarScroll
             >
 
-
+ 
               <Nav.Link href="#action2">
                 <Link to="/mynotes" className='nounderline'>My Notes</Link>
               </Nav.Link>
 
               <NavDropdown title="Abhinav Shrivastav" id="navbarScrollingDropdown">
                 <NavDropdown.Item href="#action3">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
+                <NavDropdown.Item href="#action4"
+                onClick={logoutHandler}
+                >
                   Log Out
                 </NavDropdown.Item>
 
