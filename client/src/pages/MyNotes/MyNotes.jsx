@@ -1,14 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import MainScreen from '../../components/MainScreen';
 import { Badge, Button, Container, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { listNotes } from '../../actions/notesActions';
 
 const MyNotes = () => {
-  const [openAccordions, setOpenAccordions] = useState([]);
-  const [notes, setNotes] = useState([]);
+  const dispatch = useDispatch();
 
+  const noteList = useSelector((state)=>state.noteList)
+
+  const {loading,notes,error}=noteList;
+  console.log(notes);
+
+
+
+  const [openAccordions, setOpenAccordions] = useState([]);
+  
   const handleToggle = (index) => {
     setOpenAccordions((prevOpenAccordions) => {
       if (prevOpenAccordions.includes(index)) {
@@ -21,20 +31,18 @@ const MyNotes = () => {
     });
   };
 
-  // Api calling 
-  // Api calling 
-  const fetchNotes = async () => {
-    try {
-      const { data } = await axios.get("http://localhost:5000/api/notes");
-      setNotes(data);
-    } catch (error) {
-      console.error("Error fetching notes:", error);
-    }
-  }
+ 
+  const userLogin = useSelector((state)=>state.userLogin);
 
+  const {userInfo}  = userLogin;
+  const navigate = useNavigate();
   useEffect(() => {
-    fetchNotes();
-  }, []);
+    if (userInfo) {
+      dispatch(listNotes());
+    } else {
+      navigate('/');
+    }
+  }, [dispatch, userInfo, navigate]);
 
 
   const handleDelete = (id) => {
@@ -51,7 +59,7 @@ const MyNotes = () => {
           <Button className="mb-[30px]">Create New Note</Button>
         </Link>
 
-        {notes.map((note, index) => (
+        {notes?.map((note, index) => (
           <div key={note._id} className="mt-[20px]">
             <Card>
               <Card.Header className="flex justify-between items-center">
