@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { listNotes } from '../../actions/notesActions';
+import { deleteNoteAction } from '../../actions/notesActions';
 
 const MyNotes = () => {
   const dispatch = useDispatch();
@@ -44,10 +45,10 @@ const MyNotes = () => {
     }
   }, [dispatch, userInfo, navigate]);
 
-
+  
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete?')) {
-      // Add your delete logic here
+      dispatch(deleteNoteAction(id));
     }
   };
 
@@ -55,7 +56,7 @@ const MyNotes = () => {
     <div>
       <MainScreen title="Welcome Back Abhinav Shrivastav..." />
       <Container>
-        <Link to="createnote" className="nounderline">
+        <Link to="/createnote" className="nounderline">
           <Button className="mb-[30px]">Create New Note</Button>
         </Link>
 

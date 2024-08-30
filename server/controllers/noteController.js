@@ -40,21 +40,25 @@ const getNoteById = asyncHandler(async (req, res) => {
 
 // Controller for deleting a note
 const deleteNote = asyncHandler(async (req, res) => {
-    const note = await Note.findById(req.params.id);
-
+    // Find and delete the note by its ID
+    const note = await Note.findByIdAndDelete(req.params.id);
+  
+    // Check if the note exists
     if (!note) {
-        res.status(404);
-        throw new Error("Note not found");
+      res.status(404);
+      throw new Error("Note not found");
     }
-
+  
+    // Check if the authenticated user is the owner of the note
     if (note.user.toString() !== req.user._id.toString()) {
-        res.status(401);
-        throw new Error("You can't perform this action");
+      res.status(401);
+      throw new Error("You can't perform this action");
     }
-
-    await note.remove();
+  
+    // Send a response confirming the note was removed
     res.json({ message: "Note removed" });
-});
+  });
+  
 
 // Controller for updating a note
 const updateNote = asyncHandler(async (req, res) => {
