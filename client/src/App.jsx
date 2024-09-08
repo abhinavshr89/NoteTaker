@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
 import CreateNotes from './pages/CreateNote/CreateNotes';
 import SingleNote from './pages/CreateNote/SingleNote';
+import ProfilePage from './pages/ProfilePage/ProfilePage';
 const App = () => {
   return (
     <Router>
@@ -19,7 +20,7 @@ const App = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/createnote" element={<CreateNotes/>} />
         <Route path="/note/:id" element={<SingleNote/>} />
-
+        <Route path="/profile" element ={<ProfilePage/>}/>
       </Routes>
       <Footer />
     </Router>
