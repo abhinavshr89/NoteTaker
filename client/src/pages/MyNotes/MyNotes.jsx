@@ -5,21 +5,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { listNotes } from '../../actions/notesActions';
-import { deleteNoteAction } from '../../actions/notesActions';
+import { listNotes, deleteNoteAction } from '../../actions/notesActions';
+import ReactMarkdown from 'react-markdown'; // Import react-markdown
 
 const MyNotes = () => {
   const dispatch = useDispatch();
 
-  const noteList = useSelector((state)=>state.noteList)
+  const noteList = useSelector((state) => state.noteList);
 
-  const {loading,notes,error}=noteList;
+  const { loading, notes, error } = noteList;
   console.log(notes);
 
-
-
   const [openAccordions, setOpenAccordions] = useState([]);
-  
+
   const handleToggle = (index) => {
     setOpenAccordions((prevOpenAccordions) => {
       if (prevOpenAccordions.includes(index)) {
@@ -32,10 +30,9 @@ const MyNotes = () => {
     });
   };
 
- 
-  const userLogin = useSelector((state)=>state.userLogin);
+  const userLogin = useSelector((state) => state.userLogin);
 
-  const {userInfo}  = userLogin;
+  const { userInfo } = userLogin;
   const navigate = useNavigate();
   useEffect(() => {
     if (userInfo) {
@@ -45,7 +42,6 @@ const MyNotes = () => {
     }
   }, [dispatch, userInfo, navigate]);
 
-  
   const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete?')) {
       dispatch(deleteNoteAction(id));
@@ -65,8 +61,9 @@ const MyNotes = () => {
             <Card>
               <Card.Header className="flex justify-between items-center">
                 <div
-                  className={`cursor-pointer text-[20px] font-semibold ${openAccordions.includes(index) ? 'text-blue-500' : ''
-                    }`}
+                  className={`cursor-pointer text-[20px] font-semibold ${
+                    openAccordions.includes(index) ? 'text-blue-500' : ''
+                  }`}
                   onClick={() => handleToggle(index)}
                 >
                   {note.title}
@@ -100,7 +97,8 @@ const MyNotes = () => {
                     </h4>
 
                     <blockquote className="blockquote mb-0">
-                      <p>{note.content}</p>
+                      {/* Render the content using ReactMarkdown */}
+                      <ReactMarkdown>{note.content}</ReactMarkdown>
                     </blockquote>
                   </Card.Body>
                 </motion.div>
