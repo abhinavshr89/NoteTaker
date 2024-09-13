@@ -50,7 +50,7 @@ const MyNotes = ({search}) => {
 
   return (
     <div>
-      <MainScreen title="Welcome Back Abhinav Shrivastav..." />
+      <MainScreen title={`Welcome Back ${userInfo.name}...`} />
       <Container>
         <Link to="/createnote" className="nounderline">
           <Button className="mb-[30px]">Create New Note</Button>
