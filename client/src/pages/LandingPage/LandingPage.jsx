@@ -25,7 +25,7 @@ function LandingPage({ history }) {
                 </Button>
               </Link>
 
-
+              <Link to="/register">
               <Button
                 variant="outline-primary"
                 size="lg"
@@ -33,6 +33,7 @@ function LandingPage({ history }) {
               >
                 Signup
               </Button>
+              </Link>
 
             </div>
           </div>
