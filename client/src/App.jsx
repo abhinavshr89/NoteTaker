@@ -9,13 +9,17 @@ import RegisterPage from './pages/RegisterPage/RegisterPage';
 import CreateNotes from './pages/CreateNote/CreateNotes';
 import SingleNote from './pages/CreateNote/SingleNote';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import { useState } from 'react';
 const App = () => {
+  const[search,setSearch] = useState("");
+  
+
   return (
     <Router>
-      <Header />
+      <Header setSearch={setSearch} />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/mynotes" element={<MyNotes />} />
+        <Route path="/mynotes" element={<MyNotes  search={search}/>}  />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/createnote" element={<CreateNotes/>} />

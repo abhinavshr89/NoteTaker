@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { listNotes, deleteNoteAction } from '../../actions/notesActions';
 import ReactMarkdown from 'react-markdown'; // Import react-markdown
 
-const MyNotes = () => {
+const MyNotes = ({search}) => {
   const dispatch = useDispatch();
 
   const noteList = useSelector((state) => state.noteList);
@@ -56,7 +56,7 @@ const MyNotes = () => {
           <Button className="mb-[30px]">Create New Note</Button>
         </Link>
 
-        {notes?.map((note, index) => (
+        {notes?.reverse().filter(filteredNote=>(filteredNote.title.toLowerCase().includes(search.toLowerCase()))).map((note, index) => (
           <div key={note._id} className="mt-[20px]">
             <Card>
               <Card.Header className="flex justify-between items-center">
