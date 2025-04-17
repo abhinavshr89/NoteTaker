@@ -6,6 +6,8 @@ export const login = (email, password) => async (dispatch) => {
   try {
     dispatch({ type: USER_LOGIN_REQUEST });
 
+    console.log("Dispatching login request with:", { email, password }); // Debug log
+
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -18,10 +20,13 @@ export const login = (email, password) => async (dispatch) => {
       config
     );
 
+    console.log("Login successful, data received:", data); // Debug log
+
     dispatch({ type: USER_LOGIN_SUCCESS, payload: data });
 
     localStorage.setItem("userInfo", JSON.stringify(data));
   } catch (error) {
+    console.error("Login failed:", error); // Debug log
     dispatch({
       type: USER_LOGIN_FAIL,
       payload:

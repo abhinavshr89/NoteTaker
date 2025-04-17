@@ -49,7 +49,7 @@ const MyNotes = ({search}) => {
   };
 
   return (
-    <div>
+    <div className='min-h-screen'>
       <MainScreen title={`Welcome Back ${userInfo.name}...`} />
       <Container>
         <Link to="/createnote" className="nounderline">

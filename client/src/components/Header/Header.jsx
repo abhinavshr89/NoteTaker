@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Link, useNavigate } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux'
+import { logout } from '../../actions/userActions';
 const Header = ({setSearch}) => {
   const navigate = useNavigate();
 
@@ -17,7 +18,7 @@ const Header = ({setSearch}) => {
   const {userInfo} = userLogin;
 
   const logoutHandler = () => {
-    dispatch({type: 'USER_LOGOUT'});
+    dispatch(logout());
     navigate('/');
   }
 

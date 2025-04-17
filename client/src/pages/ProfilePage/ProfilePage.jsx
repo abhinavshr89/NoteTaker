@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Row, Col } from "react-bootstrap";
-import MainScreen from "../../components/MainScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../actions/userActions";
-import Loading from "../../components/Loading";
-import ErrorMessage from "../../components/ErrorMessage";
 
 const ProfilePage = ({ history }) => {
   const [name, setName] = useState("");
@@ -12,7 +8,7 @@ const ProfilePage = ({ history }) => {
   const [pic, setPic] = useState();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [picMessage, setPicMessage] = useState();
+  const [picMessage, setPicMessage] = useState("");
 
   const dispatch = useDispatch();
 
@@ -64,91 +60,92 @@ const ProfilePage = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    
+
     if (password !== confirmPassword) {
       setPicMessage("Passwords do not match");
       return;
     }
 
-    dispatch(updateProfile({ name, email, password: password ? password : undefined, pic }));
+    dispatch(
+      updateProfile({
+        name,
+        email,
+        password: password ? password : undefined,
+        pic,
+      })
+    );
   };
 
   return (
-    <MainScreen title="EDIT PROFILE">
-      <div>
-        <Row className="profileContainer">
-          <Col md={6}>
-            <Form onSubmit={submitHandler}>
-              {loading && <Loading />}
-              {success && !loading && (
-                <ErrorMessage variant="success">
-                  Updated Successfully
-                </ErrorMessage>
-              )}
-              {error && <ErrorMessage variant="danger">{error}</ErrorMessage>}
-              <Form.Group controlId="name">
-                <Form.Label>Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter Name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="email">
-                <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                  type="email"
-                  placeholder="Enter Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="password">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Enter Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group controlId="confirmPassword">
-                <Form.Label>Confirm Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </Form.Group>
-              {picMessage && (
-                <ErrorMessage variant="danger">{picMessage}</ErrorMessage>
-              )}
-              <Form.Group controlId="pic">
-                <Form.Label>Change Profile Picture</Form.Label>
-                <Form.Control
-                  type="file"
-                  onChange={(e) => postDetails(e.target.files[0])}
-                />
-              </Form.Group>
-              <Button type="submit" variant="primary">
-                Update
-              </Button>
-            </Form>
-          </Col>
-          <Col
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <img src={pic} alt={name} className="profilePic" />
-          </Col>
-        </Row>
+    <div className="m-auto w-full max-w-4xl mt-8 flex flex-col-reverse md:flex-row bg-white shadow-md rounded-lg p-6">
+      <form className="flex-1 flex flex-col space-y-4" onSubmit={submitHandler}>
+        {loading && <p className="text-blue-500">Loading...</p>}
+        {success && <p className="text-green-500">Updated Successfully</p>}
+        {error && <p className="text-red-500">{error}</p>}
+        <div>
+          <label className="block text-gray-700">Name</label>
+          <input
+            type="text"
+            placeholder="Enter Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Email Address</label>
+          <input
+            type="email"
+            placeholder="Enter Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Password</label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Confirm Password</label>
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        {picMessage && <p className="text-red-500">{picMessage}</p>}
+        <div>
+          <label className="block text-gray-700">Change Profile Picture</label>
+          <input
+            type="file"
+            onChange={(e) => postDetails(e.target.files[0])}
+            className="w-full border border-gray-300 rounded-md p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+        >
+          Update
+        </button>
+      </form>
+      <div className="flex-1 flex items-center justify-center mt-6 md:mt-0">
+        <img
+          src={pic}
+          alt={name}
+          className="w-40 h-40 rounded-full border-2 border-gray-300 object-cover"
+        />
       </div>
-    </MainScreen>
+    </div>
   );
 };
 

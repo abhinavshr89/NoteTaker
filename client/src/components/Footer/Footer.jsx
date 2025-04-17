@@ -4,9 +4,7 @@ import { Container,Col } from 'react-bootstrap'
 const Footer = () => {
     return (
         <footer 
-            className="
-               
-            "
+            className="bg-[#0a091b] text-white"
         >
             <Container>
                 <Col className='text-center py-3'>Copyright &copy; Note Zipper</Col>
