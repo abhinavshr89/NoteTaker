@@ -1,78 +1,86 @@
-import React from 'react'
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link, useNavigate } from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux'
-import { logout } from '../../actions/userActions';
-const Header = ({setSearch}) => {
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../actions/userActions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+const Header = ({ setSearch }) => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
-
-  const userLogin = useSelector(state =>state.userLogin);
-
-  const {userInfo} = userLogin;
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const logoutHandler = () => {
     dispatch(logout());
-    navigate('/');
-  }
-
+    navigate("/");
+  };
 
   return (
-    <div>
+    <div className="bg-darkBG border-b border-gray-800 shadow-md p-2">
+      <nav className="flex items-center justify-between px-4 py-2 bg-darkBG">
+        <div>
+          <Link
+            to="/"
+            className="text-gray-200 text-lg font-bold hover:no-underline"
+          >
+            Note Zipper
+          </Link>
+        </div>
+        <div className="flex items-center space-x-4">
+          <Button
+            variant="outline"
+            className="text-gray-200 bg-gray-800 hover:bg-gray-700 border-gray-600"
+          >
+            <Link to="/mynotes" className="text-gray-200 hover:underline">
+              My Notes
+            </Link>
+          </Button>
 
-      <Navbar expand="lg" className="bg-body-tertiary">
-        <Container fluid>
-
-          <Navbar.Brand href="#">
-            <Link to="/" className='hover:no-underline'>Note Zipper</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="navbarScroll" />
-          <Navbar.Collapse id="navbarScroll d-flex">
-            <Nav
-              className="me-auto my-2 my-lg-0"
-              style={{ maxHeight: '100px' }}
-              navbarScroll
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="text-gray-200 bg-gray-800 hover:bg-gray-700 border-gray-600"
+              >
+                {userInfo ? userInfo.name : "User"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem asChild>
+                <Link to="/profile" className="text-gray-200">
+                  My Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={logoutHandler} className="text-gray-200">
+                Log Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="search"
+              placeholder="Search"
+              className="w-64 text-gray-200 placeholder-gray-400"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <Button
+              variant="outline"
+              className="text-gray-200 bg-gray-800 hover:bg-gray-700 border-gray-600"
             >
-
- 
-              <Nav.Link href="#action2">
-                <Link to="/mynotes" className='nounderline'>My Notes</Link>
-              </Nav.Link>
-
-              <NavDropdown title="user" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="/profile">My Profile</NavDropdown.Item>
-                <NavDropdown.Item href="#action4"
-                onClick={logoutHandler}
-                >
-                  Log Out
-                </NavDropdown.Item>
-
-              </NavDropdown>
-
-            </Nav>
-            <Form className="d-flex ml-auto">
-              <Form.Control
-                type="search"
-                placeholder="Search"
-                className="me-2"
-                aria-label="Search"
-                onChange={(e)=>setSearch(e.target.value)}
-              />
-              <Button variant="outline-success">Search</Button>
-            </Form>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-
-
+              Search
+            </Button>
+          </div>
+        </div>
+      </nav>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

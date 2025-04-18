@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateProfile } from "../../actions/userActions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 const ProfilePage = ({ history }) => {
   const [name, setName] = useState("");
@@ -77,73 +79,103 @@ const ProfilePage = ({ history }) => {
   };
 
   return (
-    <div className="m-auto w-full max-w-4xl mt-8 flex flex-col-reverse md:flex-row bg-white shadow-md rounded-lg p-6">
-      <form className="flex-1 flex flex-col space-y-4" onSubmit={submitHandler}>
-        {loading && <p className="text-blue-500">Loading...</p>}
-        {success && <p className="text-green-500">Updated Successfully</p>}
-        {error && <p className="text-red-500">{error}</p>}
-        <div>
-          <label className="block text-gray-700">Name</label>
-          <input
-            type="text"
-            placeholder="Enter Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700">Email Address</label>
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700">Password</label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        <div>
-          <label className="block text-gray-700">Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        {picMessage && <p className="text-red-500">{picMessage}</p>}
-        <div>
-          <label className="block text-gray-700">Change Profile Picture</label>
-          <input
-            type="file"
-            onChange={(e) => postDetails(e.target.files[0])}
-            className="w-full border border-gray-300 rounded-md p-2"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+    <div className="w-full min-h-screen bg-[#0a091b] relative z-0 pt-5">
+      <div
+        className="
+          absolute
+          left-0 bottom-10
+          w-[10%] h-72
+          bg-radial-gradient
+          from-gradientStart
+          to-gradientEnd
+          filter blur-2xl
+          pointer-events-none
+          -z-30 
+        "
+      ></div>
+      <div
+        className="
+          absolute
+          top-[30%]
+          w-[70%] h-72
+          bg-radial-gradient
+          from-gradientStart
+          to-gradientEnd
+          filter blur-2xl
+          pointer-events-none
+          -z-30 
+        "
+      ></div>
+      <div className="relative m-auto w-full max-w-4xl mt-5 flex flex-col-reverse md:flex-row shadow-md rounded-lg p-6 text-gray-300">
+        <form
+          className="flex-1 flex flex-col space-y-4"
+          onSubmit={submitHandler}
         >
-          Update
-        </button>
-      </form>
-      <div className="flex-1 flex items-center justify-center mt-6 md:mt-0">
-        <img
-          src={pic}
-          alt={name}
-          className="w-40 h-40 rounded-full border-2 border-gray-300 object-cover"
-        />
+          {loading && <p className="text-blue-500">Loading...</p>}
+          {success && <p className="text-green-500">Updated Successfully</p>}
+          {error && <p className="text-red-500">{error}</p>}
+          <div>
+            <label className="block text-gray-300">Name</label>
+            <Input
+              type="text"
+              placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300">Email Address</label>
+            <Input
+              type="email"
+              placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300">Password</label>
+            <Input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300">Confirm Password</label>
+            <Input
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              className="w-full"
+            />
+          </div>
+          {picMessage && <p className="text-red-500">{picMessage}</p>}
+          <div>
+            <label className="block text-gray-300">
+              Change Profile Picture
+            </label>
+            <Input
+              type="file"
+              onChange={(e) => postDetails(e.target.files[0])}
+              className="w-full"
+            />
+          </div>
+          <Button type="submit" className="bg-buttonColor border-[1px] border-gray-400">
+            Update
+          </Button>
+        </form>
+        <div className="flex-1 flex items-center justify-center mt-6 md:mt-0">
+          <img
+            src={pic}
+            alt={name}
+            className="w-60 h-60 rounded-full border-2 border-gray-300 object-cover"
+          />
+        </div>
       </div>
     </div>
   );

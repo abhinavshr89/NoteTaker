@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { userLoginReducer, userRegisterReducer, userUpdateReducer } from '../reducers/userReducers';
 import { noteListReducer } from '../reducers/notesReducer';
 import { noteDeleteReducer ,noteCreateReducer,noteUpdateReducer} from '../reducers/notesReducer';
+import { getSpecificNoteReducer } from '../reducers/notesReducer';
 const reducer = combineReducers({
   noteList: noteListReducer,
   userLogin: userLoginReducer,
@@ -10,7 +11,8 @@ const reducer = combineReducers({
   noteCreate: noteCreateReducer,
   noteDelete: noteDeleteReducer,
   noteUpdate: noteUpdateReducer,
-  userUpdate:userUpdateReducer
+  userUpdate:userUpdateReducer,
+  getSpecificNote:getSpecificNoteReducer,
   
 });
 
