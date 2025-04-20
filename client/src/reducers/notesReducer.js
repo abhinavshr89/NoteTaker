@@ -63,12 +63,11 @@ import {
         return { loading: false, success: true };
       case NOTES_UPDATE_FAIL:
         return { loading: false, error: action.payload, success: false };
-  
       default:
         return state;
     }
   };
-
+ 
   export const getSpecificNoteReducer = (state = {}, action) => {
     switch (action.type) {
       case NOTES_LIST_REQUEST:

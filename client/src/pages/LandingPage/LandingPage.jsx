@@ -1,4 +1,4 @@
-import  { useEffect } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +15,12 @@ function LandingPage() {
   }, [userInfo, navigate]);
 
   return (
-    <div className="flex flex-col items-center justify-center relative min-h-screen bg-[#0a091b] z-0">
+    <div
+      className="  flex flex-col items-center justify-center relative min-h-screen z-0
+    bg-[#0a091b]
+    [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)]
+    [background-size:32px_32px]"
+    >
       <div
         className="
           absolute

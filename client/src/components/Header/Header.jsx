@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
@@ -10,20 +10,31 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Menu } from "lucide-react";
+import ResponsiveNavbar from "../ResponsiveNavbar";
 
 const Header = ({ setSearch }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showNavBar, setShowNavBar] = useState(false);  
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
+
 
   const logoutHandler = () => {
     dispatch(logout());
     navigate("/");
   };
 
+  if(showNavBar) {
+    return (
+      <ResponsiveNavbar showNavBar={showNavBar} setShowNavBar={setShowNavBar} />
+    );
+  }
+
   return (
-    <div className="bg-darkBG border-b border-gray-800 shadow-md p-2">
+    
+    <div className="bg-darkBG border-b border-gray-800 shadow-md p-2 w-full">
       <nav className="flex items-center justify-between px-4 py-2 bg-darkBG">
         <div>
           <Link
@@ -33,7 +44,7 @@ const Header = ({ setSearch }) => {
             Note Zipper
           </Link>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex max-md:hidden items-center space-x-4">
           <Button
             variant="outline"
             className="text-gray-200 bg-gray-800 hover:bg-gray-700 border-gray-600"
@@ -52,13 +63,13 @@ const Header = ({ setSearch }) => {
                 {userInfo ? userInfo.name : "User"}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
+            <DropdownMenuContent className="bg-darkBG">
               <DropdownMenuItem asChild>
-                <Link to="/profile" className="text-gray-200">
+                <Link to="/profile" className="text-gray-200 ">
                   My Profile
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={logoutHandler} className="text-gray-200">
+              <DropdownMenuItem onClick={logoutHandler} className="text-gray-200  mt-2">
                 Log Out
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -78,8 +89,11 @@ const Header = ({ setSearch }) => {
             </Button>
           </div>
         </div>
+        <Menu className="text-white md:hidden" onClick={()=> setShowNavBar(!showNavBar)}/>
+        
       </nav>
     </div>
+    
   );
 };
 

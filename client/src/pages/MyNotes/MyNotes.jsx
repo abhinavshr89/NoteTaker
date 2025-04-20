@@ -1,15 +1,17 @@
-import  { useEffect, useState } from 'react';
-import MainScreen from '../../components/MainScreen';
-import { Badge,  Container, Card } from 'react-bootstrap';
-import { Button } from '@/components/ui/button';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { useDispatch, useSelector } from 'react-redux';
-import { listNotes, deleteNoteAction } from '../../actions/notesActions';
-import ReactMarkdown from 'react-markdown'; // Import react-markdownimp
-import { PlusIcon, PenBox, DeleteIcon } from 'lucide-react';
+import { useEffect, useState } from "react";
+import MainScreen from "../../components/MainScreen";
+import { Badge, Container, Card } from "react-bootstrap";
+import { Button } from "@/components/ui/button";
+import { Link, useNavigate } from "react-router-dom";
 
-const MyNotes = ({search}) => {
+import { useDispatch, useSelector } from "react-redux";
+import { listNotes, deleteNoteAction } from "../../actions/notesActions";
+import ReactMarkdown from "react-markdown"; // Import react-markdownimp
+import { PlusIcon, PenBox, DeleteIcon } from "lucide-react";
+import { motion } from "motion/react";
+import CustomButton from "@/components/CustomButton";
+
+const MyNotes = ({ search }) => {
   const dispatch = useDispatch();
 
   const noteList = useSelector((state) => state.noteList);
@@ -39,12 +41,12 @@ const MyNotes = ({search}) => {
     if (userInfo) {
       dispatch(listNotes());
     } else {
-      navigate('/');
+      navigate("/");
     }
   }, [dispatch, userInfo, navigate]);
 
   const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete?')) {
+    if (window.confirm("Are you sure you want to delete?")) {
       dispatch(deleteNoteAction(id));
     }
   };
@@ -81,66 +83,72 @@ const MyNotes = ({search}) => {
       <Container className="z-10">
         <Link to="/createnote" className="nounderline">
           <Button className="bg-buttonColor text-white py-2 px-6 rounded-lg  mb-[30px] border-[1px] border-gray-400">
-            Create New Note 
-            <PlusIcon/>
+            Create New Note
+            <PlusIcon />
           </Button>
         </Link>
 
-        {notes?.reverse().filter(filteredNote => 
-          filteredNote.title.toLowerCase().includes(search.toLowerCase())
-        ).map((note, index) => (
-          <div key={note._id} className="mt-[20px]">
-            <Card bg="dark" text="white" className="shadow-lg">
-              <Card.Header className="flex justify-between items-center bg-[#1c1c1c]">
-                <div
-                  className={`cursor-pointer text-[20px] font-semibold ${
-                    openAccordions.includes(index) ? 'text-blue-500' : ''
-                  }`}
-                  onClick={() => handleToggle(index)}
-                >
-                  {note.title}
-                </div>
-
-                <div className="flex gap-[10px]">
-                  <Link to={`/note/${note._id}`}>
-                    <Button className="bg-accent text-white bg-buttonColor  py-1 px-4 rounded-lg ">
-                      Edit <PenBox />
-                    </Button>
-                  </Link>
-                  <Button
-                    variant="danger"
-                    className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 border-[1px] border-buttonColor"
-                    onClick={() => handleDelete(note._id)}
+        {notes
+          ?.reverse()
+          .filter((filteredNote) =>
+            filteredNote.title.toLowerCase().includes(search.toLowerCase())
+          )
+          .map((note, index) => (
+            <div key={note._id} className="mt-[20px]">
+              <Card bg="dark" text="white" className="shadow-lg">
+                <Card.Header className="flex justify-between items-center bg-[#1c1c1c]">
+                  <div
+                    className={`cursor-pointer text-[20px] font-semibold ${
+                      openAccordions.includes(index) ? "text-blue-500" : ""
+                    }`}
+                    onClick={() => handleToggle(index)}
                   >
-                    Delete <DeleteIcon />
-                  </Button>
-                </div>
-              </Card.Header>
+                    {note.title}
+                  </div>
 
-              {openAccordions.includes(index) && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <Card.Body className="bg-[#1c1c1c]">
-                    <h4>
-                      <Badge bg="success" className="text-white">
-                        Category - {note.category}
-                      </Badge>
-                    </h4>
+                  <div className="flex gap-[10px]">
+                    <Link to={`/note/${note._id}`}>
+                      <CustomButton
+                        isLink={true}
+                        to={`/note/${note._id}`}
+                        label="Edit"
+                        icon={<PenBox />}
+                        color="black"
+                      />
+                    </Link>
+                    <CustomButton
+                      onClick={() => handleDelete(note._id)}
+                      label="Delete"
+                      icon={<DeleteIcon />}
+                      color="red"
+                    />
+                  </div>
+                </Card.Header>
 
-                    <blockquote className="blockquote mb-0">
-                      {/* Render the content using ReactMarkdown */}
-                      <ReactMarkdown>{note.content}</ReactMarkdown>
-                    </blockquote>
-                  </Card.Body>
-                </motion.div>
-              )}
-            </Card>
-          </div>
-        ))}
+                {openAccordions.includes(index) && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <Card.Body className="bg-[#1c1c1c]">
+                      <h4>
+                        <Badge bg="success" className="text-white">
+                          Category - {note.category}
+                        </Badge>
+                      </h4>
+
+                      <blockquote className="blockquote mb-0">
+                        {/* Render the content using ReactMarkdown */}
+                        <ReactMarkdown>{note.content}</ReactMarkdown>
+                      </blockquote>
+                    </Card.Body>
+                  </motion.div>
+                )}
+              </Card>
+            </div>
+          ))}
       </Container>
     </div>
   );
